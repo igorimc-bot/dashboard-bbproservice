@@ -543,14 +543,31 @@ body {
     border-color: #3f6ad8;
 }
 
+.card-actions-icons {
+    display: flex;
+    gap: 0.5rem;
+    padding-left: 1rem;
+    border-left: 1px solid #e9ecef;
+}
+
 .btn-icon-action {
     color: #cbd5e1;
-    cursor: pointer;
-    transition: color 0.2s;
+    padding: 0.4rem;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
 }
 
 .btn-icon-action:hover {
-    color: #3f6ad8;
+    color: #343a40;
+    background: #f8f9fa;
+}
+
+.btn-icon-action[title="Elimina"]:hover {
+    color: #ef4444;
+    background: #fee2e2;
 }
 
 /* Response (Mobile Stack) */
@@ -574,6 +591,17 @@ body {
     }
 
     .card-footer {
+        justify-content: center;
+        flex-direction: column-reverse;
+        gap: 1rem;
+    }
+
+    .card-actions-icons {
+        border-left: none;
+        padding-left: 0;
+        border-bottom: 1px solid #e9ecef;
+        padding-bottom: 1rem;
+        width: 100%;
         justify-content: center;
     }
 }
