@@ -526,22 +526,7 @@ body {
     gap: 1rem;
 }
 
-.btn-view-report {
-    background: #fff;
-    border: 1px solid #e2e8f0;
-    color: #3f6ad8;
-    padding: 0.6rem 1.2rem;
-    border-radius: 6px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    transition: all 0.2s;
-}
 
-.btn-view-report:hover {
-    background: #3f6ad8;
-    color: white;
-    border-color: #3f6ad8;
-}
 
 .card-actions-icons {
     display: flex;
