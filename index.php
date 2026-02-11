@@ -55,82 +55,119 @@ unset($site);
 </head>
 
 <body>
-    <nav class="navbar">
-        <a href="index.php" class="navbar-brand">Dashboard Stats</a>
-        <div class="navbar-user">
-            <span>Ciao, <strong>
-                    <?php echo $_SESSION['username']; ?>
-                </strong></span>
-            <?php if ($isSuperAdmin): ?>
-                <a href="manage_sites.php" class="btn btn-sm" style="display:inline; margin-left: 10px;">Gestisci Siti</a>
-            <?php endif; ?>
-            <a href="logout.php" class="btn btn-sm"
-                style="display:inline; margin-left:10px; background: rgba(255,255,255,0.1)">Logout</a>
-        </div>
-    </nav>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <span class="logo-text">Architect</span>
+            </div>
 
-    <div class="container">
-        <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-            <h1>Panoramica Siti</h1>
-            <form id="dateFilter">
-                <input type="date" name="date" value="<?php echo $dateSelection; ?>" onchange="this.form.submit()"
-                    style="padding: 0.5rem; border-radius: 0.5rem; background: var(--card-bg); color: white; border: 1px solid var(--border-color);">
-            </form>
-        </header>
-
-        <div class="site-list">
-            <?php if (empty($sites)): ?>
-                <div class="alert"
-                    style="background: rgba(255,255,255,0.05); text-align: center; border: 1px dashed var(--border-color);">
-                    Nessun sito trovato.
-                    <?php if ($isSuperAdmin): ?><a href="manage_sites.php">Aggiungine uno ora.</a>
+            <nav class="sidebar-nav">
+                <div class="nav-section">Main Navigation</div>
+                <ul>
+                    <li><a href="index.php" class="active"><span class="icon">📊</span> Dashboards</a></li>
+                    <?php if ($isSuperAdmin): ?>
+                        <li><a href="manage_sites.php"><span class="icon">⚙️</span> Manage Sites</a></li>
                     <?php endif; ?>
+                    <li><a href="#"><span class="icon">📈</span> Analytics</a></li>
+                    <li><a href="#"><span class="icon">📁</span> Projects</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Topbar -->
+            <header class="topbar">
+                <div class="search-bar">
+                    <input type="text" placeholder="Search...">
                 </div>
-            <?php else: ?>
-                <?php foreach ($sites as $site): ?>
-                    <div class="site-card">
-                        <div class="site-info">
-                            <div class="site-name">
-                                <?php echo htmlspecialchars($site['name']); ?>
-                            </div>
-                            <div class="site-url">
-                                <?php echo htmlspecialchars($site['url']); ?>
-                            </div>
-                            <?php if ($isSuperAdmin): ?>
-                                <small style="color: var(--primary-color)">Proprietario:
-                                    <?php echo htmlspecialchars($site['owner_name']); ?>
-                                </small>
-                            <?php endif; ?>
-                        </div>
-
-                        <div class="site-stat">
-                            <span class="stat-label">Visite Oggi</span>
-                            <div class="stat-value">
-                                <?php echo number_format($site['today']['visits']); ?>
-                            </div>
-                            <div class="delta <?php echo $site['visit_delta'] >= 0 ? 'positive' : 'negative'; ?>">
-                                <?php echo ($site['visit_delta'] >= 0 ? '+' : '') . $site['visit_delta']; ?> rispetto a ieri
-                            </div>
-                        </div>
-
-                        <div class="site-stat">
-                            <span class="stat-label">Lead Oggi</span>
-                            <div class="stat-value">
-                                <?php echo number_format($site['today']['leads']); ?>
-                            </div>
-                            <div class="delta <?php echo $site['lead_delta'] >= 0 ? 'positive' : 'negative'; ?>">
-                                <?php echo ($site['lead_delta'] >= 0 ? '+' : '') . $site['lead_delta']; ?> rispetto a ieri
-                            </div>
-                        </div>
-
-                        <div class="site-actions">
-                            <a href="detail.php?id=<?php echo $site['id']; ?>" class="btn btn-primary"
-                                style="padding: 0.5rem 1rem; font-size: 0.8rem;">Dettagli</a>
+                <div class="topbar-right">
+                    <div class="user-profile">
+                        <img src="https://ui-avatars.com/api/?name=<?php echo urlencode($_SESSION['username']); ?>&background=random"
+                            alt="User">
+                        <div class="user-info">
+                            <span class="name"><?php echo htmlspecialchars($_SESSION['username']); ?></span>
+                            <span class="role"><?php echo $isSuperAdmin ? 'Super Admin' : 'User'; ?></span>
                         </div>
                     </div>
-                <?php endforeach; ?>
-            <?php endif; ?>
-        </div>
+                    <a href="logout.php" class="btn-logout" title="Logout">🚪</a>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="content-wrapper">
+                <div class="page-title-area">
+                    <div class="title-left">
+                        <h2>Analytics Dashboard</h2>
+                        <p>This is an example dashboard created using build-in elements and components.</p>
+                    </div>
+                    <div class="title-right">
+                        <?php if ($isSuperAdmin): ?>
+                            <a href="manage_sites.php" class="btn btn-success">+ Add New Site</a>
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+                <!-- Date Filter (Kept from original) -->
+                <div class="filter-bar">
+                    <form id="dateFilter" style="display:inline-block;">
+                        <label style="margin-right:0.5rem; color: #6c757d;">Data:</label>
+                        <input type="date" name="date" value="<?php echo $dateSelection; ?>"
+                            onchange="this.form.submit()" class="form-control">
+                    </form>
+                </div>
+
+                <div class="stats-grid">
+                    <?php if (empty($sites)): ?>
+                        <div class="alert alert-info" style="grid-column: 1/-1;">
+                            Nessun sito trovato.
+                        </div>
+                    <?php else: ?>
+                        <?php foreach ($sites as $site): ?>
+                            <div class="stat-card">
+                                <div class="card-header">
+                                    <div class="site-icon">🌐</div>
+                                    <div class="site-meta">
+                                        <h3><?php echo htmlspecialchars($site['name']); ?></h3>
+                                        <a href="<?php echo htmlspecialchars($site['url']); ?>"
+                                            target="_blank"><?php echo htmlspecialchars($site['url']); ?></a>
+                                    </div>
+                                    <div class="card-actions">
+                                        <a href="detail.php?id=<?php echo $site['id']; ?>" class="btn-icon">⋮</a>
+                                    </div>
+                                </div>
+
+                                <div class="card-body">
+                                    <div class="metric">
+                                        <span class="value"><?php echo number_format($site['today']['visits']); ?></span>
+                                        <span class="label">Visits</span>
+                                        <div class="trend <?php echo $site['visit_delta'] >= 0 ? 'positive' : 'negative'; ?>">
+                                            <?php echo ($site['visit_delta'] >= 0 ? '↑' : '↓') . abs($site['visit_delta']); ?>
+                                            vs yesterday
+                                        </div>
+                                    </div>
+
+                                    <div class="metric">
+                                        <span class="value"><?php echo number_format($site['today']['leads']); ?></span>
+                                        <span class="label">Leads</span>
+                                        <div class="trend <?php echo $site['lead_delta'] >= 0 ? 'positive' : 'negative'; ?>">
+                                            <?php echo ($site['lead_delta'] >= 0 ? '↑' : '↓') . abs($site['lead_delta']); ?> vs
+                                            yesterday
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-footer">
+                                    <a href="detail.php?id=<?php echo $site['id']; ?>" class="btn-view-report">View Complete
+                                        Report</a>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </main>
     </div>
 </body>
 
