@@ -29,13 +29,17 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #89d4e9;
-    /* Fallback */
-    background-image: url('assets/login_background_abstract.png');
-    background-size: cover;
-    background-position: center;
+    background-color: #f0f9ff;
+    background-image:
+        radial-gradient(circle at 10% 20%, rgba(137, 212, 233, 0.4) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(137, 212, 233, 0.4) 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, rgba(137, 212, 233, 0.2) 0%, transparent 60%),
+        radial-gradient(circle at 80% 10%, rgba(137, 212, 233, 0.3) 0%, transparent 30%),
+        radial-gradient(circle at 20% 90%, rgba(137, 212, 233, 0.3) 0%, transparent 30%);
+    background-attachment: fixed;
     font-family: 'Inter', sans-serif;
     color: #333;
+    overflow-x: hidden;
 }
 
 .login-layout-container {
