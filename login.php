@@ -41,9 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <div class="login-main-card">
             <div class="login-illustration-side">
-                <div class="stats-illustration">
-                    <!-- CSS/SVG Illustration will be here -->
-                </div>
+                <img src="assets/illustration.svg" alt="Dashboard Illustration">
             </div>
 
             <div class="login-form-side">

@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Phone Frame -->
+  <rect x="150" y="50" width="200" height="350" rx="30" fill="#fff" stroke="#1e2a5e" stroke-width="8" />
+  <rect x="220" y="60" width="60" height="5" rx="2.5" fill="#1e2a5e" />
+  
+  <!-- Screen Elements -->
+  <rect x="170" y="100" width="160" height="80" rx="10" fill="#e0f2fe" />
+  <circle cx="250" cy="140" r="25" fill="#3b82f6" opacity="0.2" />
+  <path d="M210 140 L290 140" stroke="#3b82f6" stroke-width="4" />
+  
+  <!-- Security Shield -->
+  <path d="M320 180 L350 180 L350 210 Q335 230 320 210 Z" fill="#10b981" />
+  <path d="M335 190 L342 200 L328 200 Z" fill="#fff" />
+  
+  <!-- Lock Icon -->
+  <rect x="120" y="120" width="60" height="50" rx="5" fill="#3b82f6" />
+  <path d="M135 120 V100 A15 15 0 0 1 165 100 V120" stroke="#3b82f6" stroke-width="5" fill="none" />
+  <circle cx="150" cy="145" r="5" fill="#fff" />
+  
+  <!-- Characters (Abstract) -->
+  <circle cx="100" cy="250" r="15" fill="#fbbf24" />
+  <path d="M100 265 L100 300 M85 300 L115 300" stroke="#fbbf24" stroke-width="20" />
+  
+  <circle cx="400" cy="220" r="15" fill="#3b82f6" />
+  <path d="M400 235 L400 280 M385 280 L415 280" stroke="#3b82f6" stroke-width="20" />
+  
+  <!-- Floating Elements -->
+  <circle cx="420" cy="100" r="10" fill="#10b981" opacity="0.5" />
+  <rect x="50" y="320" width="80" height="40" rx="5" fill="#06b6d4" />
+</svg>
