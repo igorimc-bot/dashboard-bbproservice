@@ -169,41 +169,84 @@ unset($site);
                     <?php else: ?>
                         <?php foreach ($sites as $site): ?>
                             <div class="stat-card">
+                                <!-- 1. Identity -->
                                 <div class="card-header">
-                                    <div class="site-icon">🌐</div>
+                                    <div class="site-icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <line x1="2" y1="12" x2="22" y2="12"></line>
+                                            <path
+                                                d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+                                            </path>
+                                        </svg>
+                                    </div>
                                     <div class="site-meta">
                                         <h3><?php echo htmlspecialchars($site['name']); ?></h3>
                                         <a href="<?php echo htmlspecialchars($site['url']); ?>"
                                             target="_blank"><?php echo htmlspecialchars($site['url']); ?></a>
                                     </div>
-                                    <div class="card-actions">
-                                        <a href="detail.php?id=<?php echo $site['id']; ?>" class="btn-icon">⋮</a>
-                                    </div>
                                 </div>
 
+                                <!-- 2. Metrics -->
                                 <div class="card-body">
                                     <div class="metric">
                                         <span class="value"><?php echo number_format($site['today']['visits']); ?></span>
-                                        <span class="label">Visits</span>
+                                        <span class="label">Visite Oggi</span>
                                         <div class="trend <?php echo $site['visit_delta'] >= 0 ? 'positive' : 'negative'; ?>">
-                                            <?php echo ($site['visit_delta'] >= 0 ? '↑' : '↓') . abs($site['visit_delta']); ?>
-                                            vs yesterday
+                                            <?php if ($site['visit_delta'] >= 0): ?>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round">
+                                                    <polyline points="18 15 12 9 6 15"></polyline>
+                                                </svg>
+                                            <?php else: ?>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round">
+                                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                                </svg>
+                                            <?php endif; ?>
+                                            <?php echo abs($site['visit_delta']); ?>
                                         </div>
                                     </div>
 
                                     <div class="metric">
                                         <span class="value"><?php echo number_format($site['today']['leads']); ?></span>
-                                        <span class="label">Leads</span>
+                                        <span class="label">Lead Oggi</span>
                                         <div class="trend <?php echo $site['lead_delta'] >= 0 ? 'positive' : 'negative'; ?>">
-                                            <?php echo ($site['lead_delta'] >= 0 ? '↑' : '↓') . abs($site['lead_delta']); ?> vs
-                                            yesterday
+                                            <?php if ($site['lead_delta'] >= 0): ?>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round">
+                                                    <polyline points="18 15 12 9 6 15"></polyline>
+                                                </svg>
+                                            <?php else: ?>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round">
+                                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                                </svg>
+                                            <?php endif; ?>
+                                            <?php echo abs($site['lead_delta']); ?>
                                         </div>
                                     </div>
                                 </div>
 
+                                <!-- 3. Actions -->
                                 <div class="card-footer">
-                                    <a href="detail.php?id=<?php echo $site['id']; ?>" class="btn-view-report">View Complete
-                                        Report</a>
+                                    <a href="detail.php?id=<?php echo $site['id']; ?>" class="btn-view-report">Report
+                                        Completo</a>
+                                    <div class="btn-icon-action">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="1"></circle>
+                                            <circle cx="12" cy="5" r="1"></circle>
+                                            <circle cx="12" cy="19" r="1"></circle>
+                                        </svg>
+                                    </div>
                                 </div>
                             </div>
                         <?php endforeach; ?>
