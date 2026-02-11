@@ -11,12 +11,14 @@ $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'] ?? '';
     $password = $_POST['password'] ?? '';
+    $csrfToken = $_POST['csrf_token'] ?? '';
 
-    if (login($username, $password)) {
+    $result = login($username, $password, $csrfToken);
+    if ($result['status']) {
         header("Location: index.php");
         exit;
     } else {
-        $error = 'Credenziali non valide.';
+        $error = $result['message'];
     }
 }
 ?>
@@ -43,6 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
 
         <form method="POST" action="login.php">
+            <input type="hidden" name="csrf_token" value="<?php echo generateCSRFToken(); ?>">
             <div class="form-group">
                 <label for="username">Username</label>
                 <input type="text" id="username" name="username" required autofocus>
