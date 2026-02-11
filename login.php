@@ -35,10 +35,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <body class="login-page">
     <div class="login-layout-container">
-        <div class="login-logo-top">
-            <span class="logo-text">Logo</span>
-        </div>
-
         <div class="login-main-card">
             <div class="login-illustration-side">
                 <img src="assets/illustration.svg" alt="Dashboard Illustration">
@@ -74,24 +70,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <span class="checkmark"></span>
                             Remember Me
                         </label>
-                        <a href="#" class="forgot-link">Forgot password?</a>
                     </div>
 
                     <button type="submit" class="btn btn-login">Sign In</button>
-
-                    <div class="signup-prompt">
-                        New User? <a href="#">Sign Up</a>
-                    </div>
                 </form>
             </div>
         </div>
-
-        <footer class="login-footer">
-            <div class="copyright">Copyright Reserved @2026</div>
-            <div class="footer-links">
-                <a href="#">Terms and Conditions</a> | <a href="#">Privacy Policy</a>
-            </div>
-        </footer>
     </div>
 </body>
 
