@@ -393,6 +393,11 @@ body {
     background: #32a86b;
 }
 
+/* Filter Bar */
+.filter-bar {
+    margin-bottom: 1.5rem;
+}
+
 /* Stats Grid & Cards (Horizontal Layout) */
 .stats-grid {
     display: flex;
