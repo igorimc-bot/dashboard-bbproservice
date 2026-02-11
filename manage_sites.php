@@ -45,7 +45,7 @@ $sites = $db->query("SELECT s.*, u.username as owner_name FROM sites s JOIN user
     <title>Gestione Siti -
         <?php echo SITE_NAME; ?>
     </title>
-    <link rel="stylesheet" href="style.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="dashboard.css?v=<?php echo time(); ?>">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
@@ -201,7 +201,8 @@ $sites = $db->query("SELECT s.*, u.username as owner_name FROM sites s JOIN user
                                         <td style="padding: 0.75rem; font-weight: 500;">
                                             <?php echo htmlspecialchars($site['name']); ?>
                                             <div style="font-size: 0.8rem; color: #888; font-weight: 400;">
-                                                <?php echo htmlspecialchars($site['url']); ?></div>
+                                                <?php echo htmlspecialchars($site['url']); ?>
+                                            </div>
                                         </td>
                                         <td style="padding: 0.75rem;">
                                             <span
