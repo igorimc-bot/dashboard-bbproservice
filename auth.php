@@ -1,6 +1,7 @@
 <?php
 session_start();
-require_once 'config.php';
+require_once __DIR__ . '/auth.php';
+__DIR__ . '/config.php';
 
 /**
  * Attempt to log in a user
