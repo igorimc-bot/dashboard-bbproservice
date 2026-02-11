@@ -161,6 +161,55 @@ unset($site);
                     </form>
                 </div>
 
+                <!-- Summary Cards Section -->
+                <div class="summary-cards">
+                    <div class="summary-card">
+                        <div class="summary-icon" style="background-color: #e0f3ff; color: #3f6ad8;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                                <polyline points="17 6 23 6 23 12"></polyline>
+                            </svg>
+                        </div>
+                        <div class="summary-content">
+                            <span class="summary-value" id="total-visits">0</span>
+                            <span class="summary-label">Totale Visite</span>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-icon" style="background-color: #dcfce7; color: #22c55e;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                        </div>
+                        <div class="summary-content">
+                            <span class="summary-value" id="total-leads">0</span>
+                            <span class="summary-label">Totale Lead</span>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-icon" style="background-color: #f3e8ff; color: #a855f7;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="2" y1="12" x2="22" y2="12"></line>
+                                <path
+                                    d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="summary-content">
+                            <span class="summary-value" id="total-sites">0</span>
+                            <span class="summary-label">Siti Inclusi</span>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="stats-grid">
                     <?php if (empty($sites)): ?>
                         <div class="alert alert-info" style="grid-column: 1/-1;">
@@ -168,7 +217,12 @@ unset($site);
                         </div>
                     <?php else: ?>
                         <?php foreach ($sites as $site): ?>
-                            <div class="stat-card">
+                            <div class="stat-card" data-visits="<?php echo $site['today']['visits']; ?>"
+                                data-leads="<?php echo $site['today']['leads']; ?>">
+                                <!-- Checkbox for selection -->
+                                <div class="card-checkbox">
+                                    <input type="checkbox" class="site-checkbox" checked onchange="calculateTotals()">
+                                </div>
                                 <!-- 1. Identity -->
                                 <div class="card-header">
                                     <div class="site-icon">
@@ -237,16 +291,39 @@ unset($site);
                                 <!-- 3. Actions -->
                                 <div class="card-footer">
                                     <div class="card-actions-icons" style="border-left: none; padding-left: 0;">
-                                        <a href="detail.php?id=<?php echo $site['id']; ?>" class="btn-icon-action" title="Vedi Statistiche" style="color: #3f6ad8; background: #e0f3ff;">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                                        <a href="detail.php?id=<?php echo $site['id']; ?>" class="btn-icon-action"
+                                            title="Vedi Statistiche" style="color: #3f6ad8; background: #e0f3ff;">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <line x1="18" y1="20" x2="18" y2="10"></line>
+                                                <line x1="12" y1="20" x2="12" y2="4"></line>
+                                                <line x1="6" y1="20" x2="6" y2="14"></line>
+                                            </svg>
                                         </a>
                                         <?php if ($isSuperAdmin): ?>
                                             <div style="width: 1px; height: 24px; background: #e9ecef; margin: 0 0.5rem;"></div>
-                                            <a href="edit_site.php?id=<?php echo $site['id']; ?>" class="btn-icon-action" title="Modifica">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                                            <a href="edit_site.php?id=<?php echo $site['id']; ?>" class="btn-icon-action"
+                                                title="Modifica">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round">
+                                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                                </svg>
                                             </a>
-                                            <a href="delete_site.php?id=<?php echo $site['id']; ?>" class="btn-icon-action" title="Elimina">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                                            <a href="delete_site.php?id=<?php echo $site['id']; ?>" class="btn-icon-action"
+                                                title="Elimina">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round">
+                                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                                    <path
+                                                        d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                                                    </path>
+                                                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                                                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                                                </svg>
                                             </a>
                                         <?php endif; ?>
                                     </div>
@@ -258,6 +335,37 @@ unset($site);
             </div>
         </main>
     </div>
+
+    <script>
+        function calculateTotals() {
+            let totalVisits = 0;
+            let totalLeads = 0;
+            let totalSites = 0;
+
+            const checkboxes = document.querySelectorAll('.site-checkbox');
+
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    const card = checkbox.closest('.stat-card');
+                    const visits = parseInt(card.dataset.visits) || 0;
+                    const leads = parseInt(card.dataset.leads) || 0;
+
+                    totalVisits += visits;
+                    totalLeads += leads;
+                    totalSites++;
+                }
+            });
+
+            // Update DOM 
+            // Format numbers with thousands separator if needed, for now simple implementation
+            document.getElementById('total-visits').textContent = new Intl.NumberFormat().format(totalVisits);
+            document.getElementById('total-leads').textContent = new Intl.NumberFormat().format(totalLeads);
+            document.getElementById('total-sites').textContent = totalSites;
+        }
+
+        // Run calculation on load
+        document.addEventListener('DOMContentLoaded', calculateTotals);
+    </script>
 </body>
 
 </html>
