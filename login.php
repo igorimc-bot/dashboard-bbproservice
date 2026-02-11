@@ -34,28 +34,64 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body class="login-page">
-    <div class="login-container">
-        <h1>Dashboard Stats</h1>
-        <p>Accedi per gestire i tuoi siti</p>
+    <div class="login-layout-container">
+        <div class="login-logo-top">
+            <span class="logo-text">Logo</span>
+        </div>
 
-        <?php if ($error): ?>
-            <div class="alert alert-error">
-                <?php echo $error; ?>
+        <div class="login-main-card">
+            <div class="login-illustration-side">
+                <img src="assets/login_illustration_security.png" alt="Security Illustration" id="illustration-img">
             </div>
-        <?php endif; ?>
 
-        <form method="POST" action="login.php">
-            <input type="hidden" name="csrf_token" value="<?php echo generateCSRFToken(); ?>">
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" required autofocus>
+            <div class="login-form-side">
+                <div class="login-header">
+                    <h2>Welcome Back!</h2>
+                    <p>Login to continue</p>
+                </div>
+
+                <?php if ($error): ?>
+                    <div class="alert alert-error"><?php echo $error; ?></div>
+                <?php endif; ?>
+
+                <form method="POST" action="login.php" class="new-login-form">
+                    <input type="hidden" name="csrf_token" value="<?php echo generateCSRFToken(); ?>">
+
+                    <div class="input-group">
+                        <span class="input-icon">👤</span>
+                        <input type="text" id="username" name="username" placeholder="shaddadfatma@gmail.com" required
+                            autofocus>
+                    </div>
+
+                    <div class="input-group">
+                        <span class="input-icon">🔒</span>
+                        <input type="password" id="password" name="password" placeholder="**********" required>
+                    </div>
+
+                    <div class="form-options">
+                        <label class="checkbox-container">
+                            <input type="checkbox" name="remember" checked>
+                            <span class="checkmark"></span>
+                            Remember Me
+                        </label>
+                        <a href="#" class="forgot-link">Forgot password?</a>
+                    </div>
+
+                    <button type="submit" class="btn btn-login">Sign In</button>
+
+                    <div class="signup-prompt">
+                        New User? <a href="#">Sign Up</a>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
+        </div>
+
+        <footer class="login-footer">
+            <div class="copyright">Copyright Reserved @2026</div>
+            <div class="footer-links">
+                <a href="#">Terms and Conditions</a> | <a href="#">Privacy Policy</a>
             </div>
-            <button type="submit" class="btn btn-primary">Accedi</button>
-        </form>
+        </footer>
     </div>
 </body>
 

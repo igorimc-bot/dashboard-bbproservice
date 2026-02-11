@@ -36,5 +36,5 @@ CREATE TABLE IF NOT EXISTS `daily_stats` (
 -- Insert default superadmin (password: admin123)
 -- In production, the password should be hashed with password_hash()
 INSERT INTO `users` (`username`, `password`, `role`) 
-VALUES ('admin', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'superadmin')
+VALUES ('admin', '$2y$10$N5h0FoHkD7hbb/CPIYB0bejPE9e7zGN3hXig547L4olh7iTboUMaK', 'superadmin')
 ON DUPLICATE KEY UPDATE id=id;
