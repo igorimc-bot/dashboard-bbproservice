@@ -163,8 +163,8 @@ unset($site);
 
                 <!-- Summary Cards Section -->
                 <div class="summary-cards">
-                    <div class="summary-card">
-                        <div class="summary-icon" style="background-color: #e0f3ff; color: #3f6ad8;">
+                    <div class="summary-card blue">
+                        <div class="summary-icon" style="background-color: rgba(255,255,255,0.6); color: #1e88e5;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round">
@@ -177,8 +177,8 @@ unset($site);
                             <span class="summary-label">Totale Visite</span>
                         </div>
                     </div>
-                    <div class="summary-card">
-                        <div class="summary-icon" style="background-color: #dcfce7; color: #22c55e;">
+                    <div class="summary-card green">
+                        <div class="summary-icon" style="background-color: rgba(255,255,255,0.6); color: #2e7d32;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round">
@@ -191,8 +191,8 @@ unset($site);
                             <span class="summary-label">Totale Lead</span>
                         </div>
                     </div>
-                    <div class="summary-card">
-                        <div class="summary-icon" style="background-color: #f3e8ff; color: #a855f7;">
+                    <div class="summary-card purple">
+                        <div class="summary-icon" style="background-color: rgba(255,255,255,0.6); color: #7b1fa2;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round">
