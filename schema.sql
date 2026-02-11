@@ -1,7 +1,7 @@
 -- Database Schema for Dashboard Stats
 
-CREATE DATABASE IF NOT EXISTS `dashboard_stats` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE `dashboard_stats`;
+CREATE DATABASE IF NOT EXISTS `dashboard_database` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE `dashboard_database`;
 
 -- Users table
 CREATE TABLE IF NOT EXISTS `users` (
