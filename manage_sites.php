@@ -99,15 +99,24 @@ $sites = $db->query("SELECT s.*, u.username as owner_name FROM sites s JOIN user
                             </svg>
                             Analytics
                         </a></li>
-                    <li><a href="#">
-                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z">
-                                </path>
-                            </svg>
-                            Projects
-                        </a></li>
+                </ul>
+
+                <?php if (!empty($sites)): ?>
+                    <div class="nav-section">I Tuoi Siti</div>
+                    <ul>
+                        <?php foreach ($sites as $sSite): ?>
+                            <li><a href="detail.php?id=<?php echo $sSite['id']; ?>">
+                                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                    </svg>
+                                    <?php echo htmlspecialchars($sSite['name']); ?>
+                                </a></li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
                 </ul>
             </nav>
         </aside>
@@ -194,7 +203,7 @@ $sites = $db->query("SELECT s.*, u.username as owner_name FROM sites s JOIN user
                         <h3>Siti Esistenti</h3>
                         <div class="table-responsive">
                             <table class="data-table">
-                                    <thead>
+                                <thead>
                                     <tr>
                                         <th>Nome</th>
                                         <th>Utente</th>
@@ -222,11 +231,17 @@ $sites = $db->query("SELECT s.*, u.username as owner_name FROM sites s JOIN user
                                                 <code class="code-snippet">site_id=<?php echo $site['id']; ?></code>
                                             </td>
                                             <td style="text-align: center;">
-                                                <form method="POST" action="reset_site_stats.php" style="display: inline-block;" onsubmit="return confirm('Sei sicuro di voler resettare TUTTE le statistiche per questo sito? Questa azione è irreversibile.');">
+                                                <form method="POST" action="reset_site_stats.php"
+                                                    style="display: inline-block;"
+                                                    onsubmit="return confirm('Sei sicuro di voler resettare TUTTE le statistiche per questo sito? Questa azione è irreversibile.');">
                                                     <input type="hidden" name="site_id" value="<?php echo $site['id']; ?>">
-                                                    <button type="submit" class="btn-icon" title="Reset Statistiche" style="background: none; border: none; cursor: pointer; color: #ef4444; padding: 4px;">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                                                    <button type="submit" class="btn-icon" title="Reset Statistiche"
+                                                        style="background: none; border: none; cursor: pointer; color: #ef4444; padding: 4px;">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8">
+                                                            </path>
                                                             <path d="M3 3v5h5"></path>
                                                         </svg>
                                                     </button>

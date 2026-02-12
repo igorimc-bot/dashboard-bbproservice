@@ -37,7 +37,21 @@ try {
     $notes = $stmtNotes->fetchAll();
 } catch (PDOException $e) {
     // Graceful fallback if table doesn't exist
+    // Graceful fallback if table doesn't exist
     $notes = [];
+}
+
+// Fetch all sites for sidebar
+try {
+    if (isSuperAdmin()) {
+        $stmtSites = $db->query("SELECT id, name FROM sites ORDER BY name ASC");
+    } else {
+        $stmtSites = $db->prepare("SELECT id, name FROM sites WHERE owner_id = ? ORDER BY name ASC");
+        $stmtSites->execute([$_SESSION['user_id']]);
+    }
+    $sidebarSites = $stmtSites->fetchAll();
+} catch (PDOException $e) {
+    $sidebarSites = [];
 }
 
 // Calculate Totals
@@ -107,17 +121,17 @@ if (count($stats) > 0 && strtotime($stats[count($stats) - 1]['date']) < strtotim
                             Dashboards
                         </a></li>
                     <?php if (isSuperAdmin()): ?>
-                            <li><a href="manage_sites.php">
-                                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round">
-                                        <circle cx="12" cy="12" r="3"></circle>
-                                        <path
-                                            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
-                                        </path>
-                                    </svg>
-                                    Manage Sites
-                                </a></li>
+                        <li><a href="manage_sites.php">
+                                <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                    <path
+                                        d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+                                    </path>
+                                </svg>
+                                Manage Sites
+                            </a></li>
                     <?php endif; ?>
                     <li><a href="#" class="active">
                             <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -129,6 +143,20 @@ if (count($stats) > 0 && strtotime($stats[count($stats) - 1]['date']) < strtotim
                             Analytics
                         </a></li>
                 </ul>
+
+                <?php if (!empty($sidebarSites)): ?>
+                    <div class="nav-section">I Tuoi Siti</div>
+                    <ul>
+                        <?php foreach ($sidebarSites as $sSite): ?>
+                            <li><a href="detail.php?id=<?php echo $sSite['id']; ?>" class="<?php echo ($sSite['id'] == $id) ? 'active' : ''; ?>">
+                                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                    </svg>
+                                    <?php echo htmlspecialchars($sSite['name']); ?>
+                                </a></li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
             </nav>
         </aside>
 
@@ -160,24 +188,37 @@ if (count($stats) > 0 && strtotime($stats[count($stats) - 1]['date']) < strtotim
             </header>
 
             <div class="content-wrapper">
-                
+
                 <!-- Detail Header -->
                 <div class="detail-header">
                     <div class="detail-title-group">
                         <div style="display:flex; align-items:center; gap: 1rem; margin-bottom: 0.5rem;">
                             <a href="index.php" style="color: #94a3b8; display:flex; align-items:center;">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                                    <polyline points="12 19 5 12 12 5"></polyline>
+                                </svg>
                             </a>
                             <h1><?php echo htmlspecialchars($site['name']); ?></h1>
                             <?php if ($status === 'active'): ?>
-                                    <span class="badge badge-success" style="background:#dcfce7; color:#166534; padding:0.25rem 0.75rem; border-radius:1rem; font-size:0.75rem; font-weight:600;">Active</span>
+                                <span class="badge badge-success"
+                                    style="background:#dcfce7; color:#166534; padding:0.25rem 0.75rem; border-radius:1rem; font-size:0.75rem; font-weight:600;">Active</span>
                             <?php else: ?>
-                                    <span class="badge" style="background:#f1f5f9; color:#64748b; padding:0.25rem 0.75rem; border-radius:1rem; font-size:0.75rem; font-weight:600;">Inactive</span>
+                                <span class="badge"
+                                    style="background:#f1f5f9; color:#64748b; padding:0.25rem 0.75rem; border-radius:1rem; font-size:0.75rem; font-weight:600;">Inactive</span>
                             <?php endif; ?>
                         </div>
                         <a href="<?php echo htmlspecialchars($site['url']); ?>" target="_blank" class="detail-url">
                             <?php echo htmlspecialchars($site['url']); ?>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
                         </a>
                     </div>
                     <div class="detail-actions">
@@ -194,7 +235,11 @@ if (count($stats) > 0 && strtotime($stats[count($stats) - 1]['date']) < strtotim
                             <div class="kpi-value"><?php echo number_format($totalVisits); ?></div>
                         </div>
                         <div class="kpi-trend neutral">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
                             <span>Ultimi 30 giorni</span>
                         </div>
                     </div>
@@ -205,8 +250,13 @@ if (count($stats) > 0 && strtotime($stats[count($stats) - 1]['date']) < strtotim
                             <div class="kpi-title">Pagine Viste</div>
                             <div class="kpi-value"><?php echo number_format($totalPageViews); ?></div>
                         </div>
-                         <div class="kpi-trend up">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                        <div class="kpi-trend up">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                                <polyline points="17 6 23 6 23 12"></polyline>
+                            </svg>
                         </div>
                     </div>
 
@@ -217,7 +267,7 @@ if (count($stats) > 0 && strtotime($stats[count($stats) - 1]['date']) < strtotim
                             <div class="kpi-value"><?php echo number_format($totalLeads); ?></div>
                         </div>
                         <div class="kpi-trend up">
-                             <span>Ottimo lavoro!</span>
+                            <span>Ottimo lavoro!</span>
                         </div>
                     </div>
 
@@ -227,57 +277,33 @@ if (count($stats) > 0 && strtotime($stats[count($stats) - 1]['date']) < strtotim
                             <div class="kpi-title">Pagine Indicizzate</div>
                             <div class="kpi-value" id="kpi-indexed"><?php echo number_format($latestIndexed); ?></div>
                         </div>
-                         <div class="kpi-trend neutral">
+                        <div class="kpi-trend neutral">
                             <span>Google Index</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- SEO & Notes Section (New) -->
-                <div class="seo-notes-grid">
-                    <!-- SEO Tracking Box -->
-                    <div class="content-card seo-box">
-                        <h3>Tracciamento SEO</h3>
-                        <p style="color:#64748b; font-size:0.9rem;">Verifica quante pagine sono indicizzate su Google e aggiorna il grafico.</p>
-                        
-                        <div class="seo-action-row" style="display:flex; justify-content:space-between; align-items:center;">
-                            <a href="https://www.google.com/search?q=site:<?php echo urlencode($site['url']); ?>" target="_blank" class="btn-check-google">
-                                🔍 Verifica su Google
-                            </a>
-                        </div>
-                        
-                        <div class="seo-input-group">
-                            <input type="number" id="indexedInput" placeholder="Inserisci il n. di pagine..." min="0">
-                            <button class="btn btn-primary" onclick="saveSeoData()" style="width:auto;">Salva</button>
-                        </div>
+                <!-- SEO Tracking Section -->
+                <div class="content-card seo-box" style="margin-top: 2rem;">
+                    <h3>Tracciamento SEO</h3>
+                    <p style="color:#64748b; font-size:0.9rem;">Verifica quante pagine sono indicizzate su Google e
+                        aggiorna il grafico.</p>
 
-                         <div style="height: 200px; width: 100%; margin-top:1rem;">
-                            <canvas id="seoChart"></canvas>
-                        </div>
+                    <div class="seo-action-row"
+                        style="display:flex; justify-content:space-between; align-items:center;">
+                        <a href="https://www.google.com/search?q=site:<?php echo urlencode($site['url']); ?>"
+                            target="_blank" class="btn-check-google">
+                            🔍 Verifica su Google
+                        </a>
                     </div>
 
-                    <!-- Internal Notes Box -->
-                    <div class="content-card notes-container">
-                        <h3>Note Interne & Log</h3>
-                        <div class="notes-list" id="notesList">
-                            <?php if (empty($notes)): ?>
-                                    <p style="padding:1rem; color:#94a3b8; text-align:center;">Nessuna nota presente.</p>
-                            <?php else: ?>
-                                    <?php foreach ($notes as $note): ?>
-                                            <div class="note-item">
-                                                <div class="note-header">
-                                                    <span>System User</span>
-                                                    <span><?php echo date('d M Y H:i', strtotime($note['created_at'])); ?></span>
-                                                </div>
-                                                <div class="note-content"><?php echo nl2br(htmlspecialchars($note['content'])); ?></div>
-                                            </div>
-                                    <?php endforeach; ?>
-                            <?php endif; ?>
-                        </div>
-                        <div class="notes-input-area">
-                            <textarea id="noteInput" placeholder="Scrivi una nota..."></textarea>
-                            <button class="btn-add-note" onclick="addNote()">Invia</button>
-                        </div>
+                    <div class="seo-input-group">
+                        <input type="number" id="indexedInput" placeholder="Inserisci il n. di pagine..." min="0">
+                        <button class="btn btn-primary" onclick="saveSeoData()" style="width:auto;">Salva</button>
+                    </div>
+
+                    <div style="height: 200px; width: 100%; margin-top:1rem;">
+                        <canvas id="seoChart"></canvas>
                     </div>
                 </div>
 
@@ -293,7 +319,7 @@ if (count($stats) > 0 && strtotime($stats[count($stats) - 1]['date']) < strtotim
                 </div>
 
                 <!-- Recent Activity Table -->
-                 <div class="content-card">
+                <div class="content-card">
                     <h3>Dettaglio Giornaliero</h3>
                     <div class="table-responsive">
                         <table class="data-table" style="width: 100%; border-collapse: collapse;">
@@ -309,46 +335,71 @@ if (count($stats) > 0 && strtotime($stats[count($stats) - 1]['date']) < strtotim
                             </thead>
                             <tbody>
                                 <?php if (empty($stats)): ?>
-                                        <tr>
-                                            <td colspan="6" style="padding: 2rem; text-align: center; color: #94a3b8;">
-                                                Nessun dato disponibile per questo periodo.
+                                    <tr>
+                                        <td colspan="6" style="padding: 2rem; text-align: center; color: #94a3b8;">
+                                            Nessun dato disponibile per questo periodo.
+                                        </td>
+                                    </tr>
+                                <?php else: ?>
+                                    <?php foreach (array_reverse($stats) as $day): ?>
+                                        <tr style="border-bottom: 1px solid #f8fafc;">
+                                            <td style="padding: 1rem; color: #334155; font-weight:500;">
+                                                <?php echo date('d M Y', strtotime($day['date'])); ?>
+                                            </td>
+                                            <td style="padding: 1rem; color: #64748b;">
+                                                <?php echo number_format($day['visits']); ?>
+                                            </td>
+                                            <td style="padding: 1rem; color: #64748b;">
+                                                <?php echo number_format($day['page_views'] ?? 0); ?>
+                                            </td>
+                                            <td style="padding: 1rem;">
+                                                <?php if ($day['leads'] > 0): ?>
+                                                    <span
+                                                        style="background: #dcfce7; color: #166534; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.85rem; font-weight: 600;">
+                                                        <?php echo $day['leads']; ?>
+                                                    </span>
+                                                <?php else: ?>
+                                                    <span style="color: #cbd5e1;">-</span>
+                                                <?php endif; ?>
+                                            </td>
+                                            <td style="padding: 1rem; color: #64748b;">
+                                                <?php echo number_format($day['indexed_pages'] ?? 0); ?>
+                                            </td>
+                                            <td style="padding: 1rem; color: #64748b;">
+                                                <?php
+                                                $cr = $day['visits'] > 0 ? round(($day['leads'] / $day['visits']) * 100, 2) : 0;
+                                                echo $cr . '%';
+                                                ?>
                                             </td>
                                         </tr>
-                                <?php else: ?>
-                                        <?php foreach (array_reverse($stats) as $day): ?>
-                                            <tr style="border-bottom: 1px solid #f8fafc;">
-                                                <td style="padding: 1rem; color: #334155; font-weight:500;">
-                                                    <?php echo date('d M Y', strtotime($day['date'])); ?>
-                                                </td>
-                                                <td style="padding: 1rem; color: #64748b;">
-                                                    <?php echo number_format($day['visits']); ?>
-                                                </td>
-                                                <td style="padding: 1rem; color: #64748b;">
-                                                    <?php echo number_format($day['page_views'] ?? 0); ?>
-                                                </td>
-                                                <td style="padding: 1rem;">
-                                                    <?php if ($day['leads'] > 0): ?>
-                                                            <span style="background: #dcfce7; color: #166534; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.85rem; font-weight: 600;">
-                                                                <?php echo $day['leads']; ?>
-                                                            </span>
-                                                    <?php else: ?>
-                                                            <span style="color: #cbd5e1;">-</span>
-                                                    <?php endif; ?>
-                                                </td>
-                                                <td style="padding: 1rem; color: #64748b;">
-                                                    <?php echo number_format($day['indexed_pages'] ?? 0); ?>
-                                                </td>
-                                                <td style="padding: 1rem; color: #64748b;">
-                                                    <?php
-                                                    $cr = $day['visits'] > 0 ? round(($day['leads'] / $day['visits']) * 100, 2) : 0;
-                                                    echo $cr . '%';
-                                                    ?>
-                                                </td>
-                                            </tr>
-                                        <?php endforeach; ?>
+                                    <?php endforeach; ?>
                                 <?php endif; ?>
                             </tbody>
                         </table>
+                    </div>
+                </div>
+
+                <!-- Internal Notes Box (Moved to Bottom) -->
+                <div class="content-card notes-container" style="margin-top: 2rem;">
+                    <h3>Note Interne & Log</h3>
+                    <div class="notes-list" id="notesList">
+                        <?php if (empty($notes)): ?>
+                            <p style="padding:1rem; color:#94a3b8; text-align:center;">Nessuna nota presente.</p>
+                        <?php else: ?>
+                            <?php foreach ($notes as $note): ?>
+                                <div class="note-item">
+                                    <div class="note-header">
+                                        <span>System User</span>
+                                        <span><?php echo date('d M Y H:i', strtotime($note['created_at'])); ?></span>
+                                    </div>
+                                    <div class="note-content"><?php echo nl2br(htmlspecialchars($note['content'])); ?></div>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
+                    <div class="notes-input-area">
+                        <textarea id="noteInput" placeholder="Scrivi una nota..."></textarea>
+                        <button class="btn-add-note" onclick="addNote()">Invia</button>
                     </div>
                 </div>
 
