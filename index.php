@@ -23,14 +23,14 @@ $sites = $stmt->fetchAll();
 // Fetch stats for each site
 foreach ($sites as &$site) {
     // Today's stats
-    $stmt = $db->prepare("SELECT visits, leads FROM daily_stats WHERE site_id = ? AND date = ?");
+    $stmt = $db->prepare("SELECT visits, leads, page_views FROM daily_stats WHERE site_id = ? AND date = ?");
     $stmt->execute([$site['id'], $dateSelection]);
-    $todayStats = $stmt->fetch() ?: ['visits' => 0, 'leads' => 0];
+    $todayStats = $stmt->fetch() ?: ['visits' => 0, 'leads' => 0, 'page_views' => 0];
 
     // Yesterday's stats for comparison
-    $stmt = $db->prepare("SELECT visits, leads FROM daily_stats WHERE site_id = ? AND date = ?");
+    $stmt = $db->prepare("SELECT visits, leads, page_views FROM daily_stats WHERE site_id = ? AND date = ?");
     $stmt->execute([$site['id'], $yesterday]);
-    $yesterdayStats = $stmt->fetch() ?: ['visits' => 0, 'leads' => 0];
+    $yesterdayStats = $stmt->fetch() ?: ['visits' => 0, 'leads' => 0, 'page_views' => 0];
 
     $site['today'] = $todayStats;
     $site['yesterday'] = $yesterdayStats;
@@ -38,6 +38,7 @@ foreach ($sites as &$site) {
     // Calculate deltas
     $site['visit_delta'] = $todayStats['visits'] - $yesterdayStats['visits'];
     $site['lead_delta'] = $todayStats['leads'] - $yesterdayStats['leads'];
+    $site['page_view_delta'] = ($todayStats['page_views'] ?? 0) - ($yesterdayStats['page_views'] ?? 0);
 }
 unset($site);
 ?>
@@ -204,8 +205,8 @@ unset($site);
                             </svg>
                         </div>
                         <div class="summary-content">
-                            <span class="summary-value" id="total-sites">0</span>
-                            <span class="summary-label">Siti Inclusi</span>
+                            <span class="summary-value" id="total-page-views">0</span>
+                            <span class="summary-label">Pagine Viste</span>
                         </div>
                     </div>
                 </div>
@@ -218,7 +219,8 @@ unset($site);
                     <?php else: ?>
                         <?php foreach ($sites as $site): ?>
                             <div class="stat-card" data-visits="<?php echo $site['today']['visits']; ?>"
-                                data-leads="<?php echo $site['today']['leads']; ?>">
+                                data-leads="<?php echo $site['today']['leads']; ?>"
+                                data-page-views="<?php echo $site['today']['page_views'] ?? 0; ?>">
                                 <!-- Checkbox for selection -->
                                 <div class="card-checkbox">
                                     <input type="checkbox" class="site-checkbox" checked onchange="calculateTotals()">
@@ -340,6 +342,7 @@ unset($site);
         function calculateTotals() {
             let totalVisits = 0;
             let totalLeads = 0;
+            let totalPageViews = 0;
             let totalSites = 0;
 
             const checkboxes = document.querySelectorAll('.site-checkbox');
@@ -349,18 +352,19 @@ unset($site);
                     const card = checkbox.closest('.stat-card');
                     const visits = parseInt(card.dataset.visits) || 0;
                     const leads = parseInt(card.dataset.leads) || 0;
+                    const pageViews = parseInt(card.dataset.pageViews) || 0;
 
                     totalVisits += visits;
                     totalLeads += leads;
+                    totalPageViews += pageViews;
                     totalSites++;
                 }
             });
 
             // Update DOM 
-            // Format numbers with thousands separator if needed, for now simple implementation
             document.getElementById('total-visits').textContent = new Intl.NumberFormat().format(totalVisits);
             document.getElementById('total-leads').textContent = new Intl.NumberFormat().format(totalLeads);
-            document.getElementById('total-sites').textContent = totalSites;
+            document.getElementById('total-page-views').textContent = new Intl.NumberFormat().format(totalPageViews);
         }
 
         // Run calculation on load

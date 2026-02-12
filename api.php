@@ -32,15 +32,16 @@ try {
 
     if ($record) {
         // Update existing record
-        $field = ($type === 'lead') ? 'leads' : 'visits';
+        $field = ($type === 'lead') ? 'leads' : (($type === 'page_view') ? 'page_views' : 'visits');
         $stmt = $db->prepare("UPDATE daily_stats SET $field = $field + 1 WHERE id = ?");
         $stmt->execute([$record['id']]);
     } else {
         // Create new record for today
         $visits = ($type === 'visit') ? 1 : 0;
         $leads = ($type === 'lead') ? 1 : 0;
-        $stmt = $db->prepare("INSERT INTO daily_stats (site_id, date, visits, leads) VALUES (?, ?, ?, ?)");
-        $stmt->execute([$siteId, $today, $visits, $leads]);
+        $pageViews = ($type === 'page_view') ? 1 : 0;
+        $stmt = $db->prepare("INSERT INTO daily_stats (site_id, date, visits, leads, page_views) VALUES (?, ?, ?, ?, ?)");
+        $stmt->execute([$siteId, $today, $visits, $leads, $pageViews]);
     }
 
     echo json_encode(['status' => 'success', 'type' => $type]);
