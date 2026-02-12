@@ -30,6 +30,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_site'])) {
     }
 }
 
+// Handle success/error messages from redirects
+if (isset($_GET['success']) && $_GET['success'] === 'stats_reset') {
+    $success = 'Statistiche resettate correttamente!';
+}
+if (isset($_GET['error'])) {
+    $error = htmlspecialchars($_GET['error']);
+}
+
 // Fetch users for the owner selection
 $users = $db->query("SELECT id, username FROM users")->fetchAll();
 
@@ -186,11 +194,12 @@ $sites = $db->query("SELECT s.*, u.username as owner_name FROM sites s JOIN user
                         <h3>Siti Esistenti</h3>
                         <div class="table-responsive">
                             <table class="data-table">
-                                <thead>
+                                    <thead>
                                     <tr>
                                         <th>Nome</th>
                                         <th>Utente</th>
                                         <th>ID Tracciamento</th>
+                                        <th style="width: 100px; text-align: center;">Azioni</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -211,6 +220,17 @@ $sites = $db->query("SELECT s.*, u.username as owner_name FROM sites s JOIN user
                                             </td>
                                             <td>
                                                 <code class="code-snippet">site_id=<?php echo $site['id']; ?></code>
+                                            </td>
+                                            <td style="text-align: center;">
+                                                <form method="POST" action="reset_site_stats.php" style="display: inline-block;" onsubmit="return confirm('Sei sicuro di voler resettare TUTTE le statistiche per questo sito? Questa azione è irreversibile.');">
+                                                    <input type="hidden" name="site_id" value="<?php echo $site['id']; ?>">
+                                                    <button type="submit" class="btn-icon" title="Reset Statistiche" style="background: none; border: none; cursor: pointer; color: #ef4444; padding: 4px;">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                                                            <path d="M3 3v5h5"></path>
+                                                        </svg>
+                                                    </button>
+                                                </form>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
