@@ -198,7 +198,8 @@ $sites = $db->query("SELECT s.*, u.username as owner_name FROM sites s JOIN user
                                         <tr>
                                             <td>
                                                 <div style="font-weight: 500;">
-                                                    <?php echo htmlspecialchars($site['name']); ?></div>
+                                                    <?php echo htmlspecialchars($site['name']); ?>
+                                                </div>
                                                 <div style="font-size: 0.85rem; color: #64748b;">
                                                     <?php echo htmlspecialchars($site['url']); ?>
                                                 </div>
@@ -219,22 +220,37 @@ $sites = $db->query("SELECT s.*, u.username as owner_name FROM sites s JOIN user
                     </div>
                 </div>
 
-                <div class="stat-card"
-                    style="margin-top: 2rem; padding: 1.5rem; border: 1px dashed #3f6ad8; background: #f8fbff;">
-                    <div
-                        style="display:flex; align-items:center; gap: 0.5rem; margin-bottom: 0.5rem; color: #3f6ad8; font-weight: 600;">
-                        <span>🔧</span> Come tracciare i siti
+                <div class="content-card">
+                    <div style="display:flex; align-items:center; margin-bottom: 1rem;">
+                        <div class="instruction-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path
+                                    d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z">
+                                </path>
+                            </svg>
+                        </div>
+                        <h3 style="margin:0; border:none; padding:0;">Come tracciare i siti</h3>
                     </div>
-                    <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1rem;">Inserisci questo codice
-                        JavaScript nei siti remoti:</p>
-                    <pre
-                        style="background: #1e293b; color: #e2e8f0; padding: 1.5rem; border-radius: 0.5rem; overflow-x: auto; font-size: 0.9rem;">
-// Tracciamento Visita (caricamento pagina)
+
+                    <p style="color: #64748b; margin-bottom: 1rem; line-height: 1.6;">
+                        Per iniziare a raccogliere i dati, inserisci questo snippet JavaScript nel footer di ogni pagina
+                        dei siti remoti che vuoi monitorare.
+                        Assicurati di sostituire <code>ID_SITO</code> con l'ID corretto dalla tabella sopra.
+                    </p>
+
+                    <div class="code-block">
+                        <pre><code>// 1. Tracciamento Visita (al caricamento pagina)
 fetch('<?php echo BASE_URL; ?>api.php?site_id=ID_SITO&type=visit');
 
-// Tracciamento Lead (al submit del form)
-// Aggiungi questo nella funzione di successo del tuo form
-fetch('<?php echo BASE_URL; ?>api.php?site_id=ID_SITO&type=lead');</pre>
+// 2. Tracciamento Lead (al submit del form)
+// Inserisci questo codice nella funzione di successo del tuo form (es. Contact Form 7 o Elementor)
+fetch('<?php echo BASE_URL; ?>api.php?site_id=ID_SITO&type=lead');
+
+// 3. Tracciamento Page View (opzionale, per ogni pagina vista)
+fetch('<?php echo BASE_URL; ?>api.php?site_id=ID_SITO&type=page_view');</code></pre>
+                    </div>
                 </div>
             </div>
         </main>
