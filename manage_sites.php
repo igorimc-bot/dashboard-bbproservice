@@ -152,27 +152,24 @@ $sites = $db->query("SELECT s.*, u.username as owner_name FROM sites s JOIN user
                     </div>
                 <?php endif; ?>
 
-                <div class="grid" style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem;">
+                <div class="grid-layout">
                     <!-- Add Site Card -->
-                    <div class="stat-card" style="padding: 1.5rem; height: auto;">
-                        <h3 style="margin-bottom: 1rem;">Aggiungi Nuovo Sito</h3>
+                    <div class="content-card">
+                        <h3>Aggiungi Nuovo Sito</h3>
                         <form method="POST">
                             <input type="hidden" name="add_site" value="1">
-                            <div class="form-group" style="margin-bottom: 1rem;">
-                                <label style="display:block; margin-bottom: 0.5rem; font-weight:600;">Nome Sito</label>
+                            <div class="form-group">
+                                <label class="form-label">Nome Sito</label>
                                 <input type="text" name="name" placeholder="es. Ohana Lab" required
-                                    style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: 0.5rem; outline: none;">
+                                    class="form-control">
                             </div>
-                            <div class="form-group" style="margin-bottom: 1rem;">
-                                <label style="display:block; margin-bottom: 0.5rem; font-weight:600;">URL Sito</label>
-                                <input type="url" name="url" placeholder="https://..." required
-                                    style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: 0.5rem; outline: none;">
+                            <div class="form-group">
+                                <label class="form-label">URL Sito</label>
+                                <input type="url" name="url" placeholder="https://..." required class="form-control">
                             </div>
-                            <div class="form-group" style="margin-bottom: 1.5rem;">
-                                <label style="display:block; margin-bottom: 0.5rem; font-weight:600;">Assegna a
-                                    Utente</label>
-                                <select name="owner_id"
-                                    style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: 0.5rem; outline: none;">
+                            <div class="form-group">
+                                <label class="form-label">Assegna a Utente</label>
+                                <select name="owner_id" class="form-control">
                                     <?php foreach ($users as $user): ?>
                                         <option value="<?php echo $user['id']; ?>" <?php echo $user['id'] == $_SESSION['user_id'] ? 'selected' : ''; ?>>
                                             <?php echo htmlspecialchars($user['username']); ?>
@@ -180,44 +177,45 @@ $sites = $db->query("SELECT s.*, u.username as owner_name FROM sites s JOIN user
                                     <?php endforeach; ?>
                                 </select>
                             </div>
-                            <button type="submit" class="btn btn-primary" style="width:100%;">Aggiungi Sito</button>
+                            <button type="submit" class="btn btn-primary">Aggiungi Sito</button>
                         </form>
                     </div>
 
                     <!-- Existing Sites Card -->
-                    <div class="stat-card" style="padding: 1.5rem; height: auto;">
-                        <h3 style="margin-bottom: 1rem;">Siti Esistenti</h3>
-                        <table style="width: 100%; border-collapse: collapse;">
-                            <thead>
-                                <tr style="border-bottom: 2px solid #e2e8f0; text-align: left;">
-                                    <th style="padding: 0.75rem;">Nome</th>
-                                    <th style="padding: 0.75rem;">Utente</th>
-                                    <th style="padding: 0.75rem;">ID Tracciamento</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($sites as $site): ?>
-                                    <tr style="border-bottom: 1px solid #f8f9fa;">
-                                        <td style="padding: 0.75rem; font-weight: 500;">
-                                            <?php echo htmlspecialchars($site['name']); ?>
-                                            <div style="font-size: 0.8rem; color: #888; font-weight: 400;">
-                                                <?php echo htmlspecialchars($site['url']); ?>
-                                            </div>
-                                        </td>
-                                        <td style="padding: 0.75rem;">
-                                            <span
-                                                style="background: #e0f3ff; color: #3f6ad8; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.85rem;">
-                                                <?php echo htmlspecialchars($site['owner_name']); ?>
-                                            </span>
-                                        </td>
-                                        <td style="padding: 0.75rem;">
-                                            <code
-                                                style="background: #f1f4f6; color: #d63384; padding: 0.3rem 0.6rem; border-radius: 4px; font-size: 0.9rem;">site_id=<?php echo $site['id']; ?></code>
-                                        </td>
+                    <div class="content-card">
+                        <h3>Siti Esistenti</h3>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>Utente</th>
+                                        <th>ID Tracciamento</th>
                                     </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($sites as $site): ?>
+                                        <tr>
+                                            <td>
+                                                <div style="font-weight: 500;">
+                                                    <?php echo htmlspecialchars($site['name']); ?></div>
+                                                <div style="font-size: 0.85rem; color: #64748b;">
+                                                    <?php echo htmlspecialchars($site['url']); ?>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span class="badge badge-blue">
+                                                    <?php echo htmlspecialchars($site['owner_name']); ?>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <code class="code-snippet">site_id=<?php echo $site['id']; ?></code>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
 
