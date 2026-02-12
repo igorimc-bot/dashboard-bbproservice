@@ -920,7 +920,137 @@ body {
     color: #475569;
 }
 
-.btn-primary:hover {
+
+/* =========================================
+   SEO & Notes Section
+   ========================================= */
+
+.seo-notes-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+@media (max-width: 900px) {
+    .seo-notes-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* SEO Box */
+.seo-box {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.seo-input-group {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    background: #f8fafc;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid #e2e8f0;
+}
+
+.seo-input-group input {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.btn-check-google {
+    background: #4285f4;
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background 0.2s;
+}
+
+.btn-check-google:hover {
+    background: #3367d6;
+}
+
+/* Notes Section */
+.notes-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.notes-list {
+    flex: 1;
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+    border: 1px solid #f1f5f9;
+    border-radius: 6px;
+    padding: 1rem;
+    background: #fdfdfd;
+}
+
+.note-item {
+    padding: 0.75rem;
+    border-bottom: 1px solid #f1f5f9;
+    margin-bottom: 0.5rem;
+}
+
+.note-item:last-child {
+    border-bottom: none;
+}
+
+.note-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: #94a3b8;
+    margin-bottom: 0.25rem;
+}
+
+.note-content {
+    font-size: 0.9rem;
+    color: #334155;
+    line-height: 1.4;
+    white-space: pre-wrap;
+}
+
+.notes-input-area {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.notes-input-area textarea {
+    flex: 1;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 0.5rem;
+    resize: none;
+    height: 60px;
+    font-family: inherit;
+}
+
+.btn-add-note {
+    align-self: flex-end;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    height: 40px;
+}
+
+.btn-add-note:hover {
     background: #2563eb;
 }
 
