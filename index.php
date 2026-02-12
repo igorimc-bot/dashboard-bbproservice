@@ -269,6 +269,28 @@ unset($site);
                                     </div>
 
                                     <div class="metric">
+                                        <span class="value"><?php echo number_format($site['today']['page_views'] ?? 0); ?></span>
+                                        <span class="label">Pagine Viste</span>
+                                        <div
+                                            class="trend <?php echo ($site['page_view_delta'] ?? 0) >= 0 ? 'positive' : 'negative'; ?>">
+                                            <?php if (($site['page_view_delta'] ?? 0) >= 0): ?>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round">
+                                                    <polyline points="18 15 12 9 6 15"></polyline>
+                                                </svg>
+                                            <?php else: ?>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round">
+                                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                                </svg>
+                                            <?php endif; ?>
+                                            <?php echo abs($site['page_view_delta'] ?? 0); ?>
+                                        </div>
+                                    </div>
+
+                                    <div class="metric">
                                         <span class="value"><?php echo number_format($site['today']['leads']); ?></span>
                                         <span class="label">Lead Oggi</span>
                                         <div class="trend <?php echo $site['lead_delta'] >= 0 ? 'positive' : 'negative'; ?>">
