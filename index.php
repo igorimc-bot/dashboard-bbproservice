@@ -178,20 +178,6 @@ unset($site);
                             <span class="summary-label">Totale Visite</span>
                         </div>
                     </div>
-                    <div class="summary-card green">
-                        <div class="summary-icon" style="background-color: rgba(255,255,255,0.6); color: #2e7d32;">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                            </svg>
-                        </div>
-                        <div class="summary-content">
-                            <span class="summary-value" id="total-leads">0</span>
-                            <span class="summary-label">Totale Lead</span>
-                        </div>
-                    </div>
                     <div class="summary-card purple">
                         <div class="summary-icon" style="background-color: rgba(255,255,255,0.6); color: #7b1fa2;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -207,6 +193,20 @@ unset($site);
                         <div class="summary-content">
                             <span class="summary-value" id="total-page-views">0</span>
                             <span class="summary-label">Pagine Viste</span>
+                        </div>
+                    </div>
+                    <div class="summary-card green">
+                        <div class="summary-icon" style="background-color: rgba(255,255,255,0.6); color: #2e7d32;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                        </div>
+                        <div class="summary-content">
+                            <span class="summary-value" id="total-leads">0</span>
+                            <span class="summary-label">Totale Lead</span>
                         </div>
                     </div>
                 </div>
